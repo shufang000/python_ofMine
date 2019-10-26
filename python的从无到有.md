@@ -430,6 +430,6 @@ def get_result(numbers, points):
 
 start_game(3)
 
-# TODO
+
 ```
 
