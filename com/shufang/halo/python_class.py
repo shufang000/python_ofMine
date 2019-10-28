@@ -128,14 +128,16 @@ print(New_cocacola.calories)
 
 class TestA:
     pro = 1
+
     def __init__(self):  # 改动的只是当前对象self的属性
         self.pro = 2
+
+
 # 创建实例
 a = TestA()
 
 print(a.pro)  # 2
 print(TestA.pro)  # 1
-
 
 # 所有的类通过自带的__dict__方法用字典来存储 引用类、引用实例 的属性，如下：
 #  {'__dict__': <attribute '__dict__' of 'TestA' objects>,
@@ -148,10 +150,125 @@ print(TestA.pro)  # 1
 print(TestA.__dict__)
 print(a.__dict__)
 
-
 a1 = 'String!'
 a2 = 1
 a3 = []
 a4 = {}
 # 通过type函数查看变量类型
-print(type(a1),type(a2),type(a3),type(a4))
+print(type(a1), type(a2), type(a3), type(a4))
+
+## 从文件读取数据
+ln_path = '/Users/shufang/Desktop/last_name.txt'
+fn_path = '/Users/shufang/Desktop/first_name.txt'
+
+fn = []
+ln2 = []
+ln1 = []
+with open(fn_path, 'r') as file:
+    for line in file.readlines():
+        fn.append(line.split('\n')[0])
+
+print(fn)
+
+with open(ln_path, 'r') as file2:
+    for line in file2.readlines():
+        ln = line.split('\n')[0]
+        if (len(ln) == 1):
+            ln1.append(ln)
+        else:
+            ln2.append(ln)
+
+print(ln1)
+print("=" * 70)  # 分割线
+print(ln2)
+
+# 定义一个假用户
+
+import random
+
+
+# class FakeUser:
+#     def fake_name(self, one_word=False, two_words=False):
+#         if one_word:
+#             full_name = random.choice(fn) + random.choice(ln1)
+#         elif two_words:
+#             full_name = random.choice(fn) + random.choice(ln2)
+#         else:
+#             full_name = random.choice(fn) + random.choice(ln1 + ln2)
+#         print(full_name)
+#
+#     def fake_gender(self):
+#         gender = random.choice(['男', '女', '未知'])
+#         print(gender)
+#
+#
+# # 定义子类
+# class SnUser(FakeUser):
+#     def get_follower(self, few=True, a_lot=False):
+#         if few:
+#             followers = random.randrange(1, 55)
+#         elif a_lot:
+#             followers = random.randrange(1000, 10000)
+#         print(followers)
+#
+#
+# user_a = FakeUser()
+# user_b = SnUser()
+# user_a.fake_name()
+# user_b.get_follower(few=True)
+#
+
+#   以上用到的主要函数是 random库里面的 random.choice(iter)  random.randrange(1,55)
+#   但是我这里要用到的是生成器，关键字：yield，将上面的代码改以下：
+#   在函数中只要在任意一种loop循环中用到 yield返回结果，就可以得到类似于range的效果！
+
+class FakeUser:
+    def fake_name(self, one_word=False, two_words=False, amount=10):
+        n = 0
+        while n <= amount:
+            if one_word:
+                full_name = random.choice(fn) + random.choice(ln1)
+            elif two_words:
+                full_name = random.choice(fn) + random.choice(ln2)
+            else:
+                full_name = random.choice(fn) + random.choice(ln1 + ln2)
+            yield full_name
+            n += 1
+
+    def fake_gender(self, amount=10):
+        n = 0
+        while n <= amount:
+            gender = random.choice(['男', '女', '未知'])
+            yield gender
+            n += 1
+
+
+# 定义子类
+class SnUser(FakeUser):
+    def get_follower(self, few=True, a_lot=False, amount=10):
+
+        n = 0
+        while n <= amount:
+            if few:
+                followers = random.randrange(1, 55)
+            elif a_lot:
+                followers = random.randrange(1000, 10000)
+            yield followers
+            n += 1
+
+
+user_a = FakeUser()
+user_b = SnUser()
+for name in user_a.fake_name(30):
+    print(name)
+for gender in user_a.fake_gender(30):
+    print(gender)
+
+
+# python 可以写自己的库 ，然后通过import 方式导入 ，记得在python安装目录下的site-packages目录下，将自己的py文件放进去
+# 一般使用pip来安装第三方的库
+
+#     https://awesome-python.com/   一般在这里面可以找到各式各样的三方库
+
+
+
