@@ -155,3 +155,6 @@ a3 = []
 a4 = {}
 # 通过type函数查看变量类型
 print(type(a1),type(a2),type(a3),type(a4))
+
+
+
