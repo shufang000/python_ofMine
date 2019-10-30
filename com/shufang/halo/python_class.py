@@ -128,8 +128,11 @@ print(New_cocacola.calories)
 
 class TestA:
     pro = 1
+
     def __init__(self):  # 改动的只是当前对象self的属性
         self.pro = 2
+
+
 # 创建实例
 a = TestA()
 
@@ -155,6 +158,3 @@ a3 = []
 a4 = {}
 # 通过type函数查看变量类型
 print(type(a1),type(a2),type(a3),type(a4))
-
-
-
